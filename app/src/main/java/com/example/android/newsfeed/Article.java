@@ -4,13 +4,13 @@ public class Article {
 
     private String mSection;
     private String mTitle;
-    private long mTimeInMilliseconds;
+    private String mdateTime;
     private String mUrl;
 
-    public Article(String section, String title, long timeInMilliseconds, String url) {
+    public Article(String section, String title, String dateTime, String url) {
         mSection = section;
         mTitle = title;
-        mTimeInMilliseconds = timeInMilliseconds;
+        mdateTime = dateTime;
         mUrl = url;
     }
 
@@ -22,8 +22,8 @@ public class Article {
         return mTitle;
     }
 
-    public long getTimeInMilliseconds() {
-        return mTimeInMilliseconds;
+    public String getDateTime() {
+        return mdateTime;
     }
 
     public String getUrl() {
