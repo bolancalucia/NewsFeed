@@ -27,6 +27,6 @@ public class Article {
     }
 
     public String getUrl() {
-        return  mUrl;
+        return mUrl;
     }
 }

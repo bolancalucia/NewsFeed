@@ -7,9 +7,8 @@ import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -21,8 +20,7 @@ import java.util.List;
 
 public class NewsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>> {
 
-    private static final String URL_1 = "http://content.guardianapis.com/search?q=debates&api-key=test";
-    private static final String URL_2 = "https://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2014-01-01&api-key=test";
+    private static final String KEY_URL = "https://content.guardianapis.com/search?api-key=8882f142-6a36-4e6a-b1b9-86f003d1910e";
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mAdapter;
     private TextView emptyView;
@@ -45,33 +43,34 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 Article selectedArticle = mAdapter.getItem(position);
                 Uri webPage = null;
-                if(selectedArticle != null) {
+                if (selectedArticle != null) {
                     webPage = Uri.parse(selectedArticle.getUrl());
                 }
                 Intent intent = new Intent(Intent.ACTION_VIEW, webPage);
-                if(intent.resolveActivity(getPackageManager()) != null) {
+                if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
                 }
             }
         });
 
-        ConnectivityManager connectivityManager = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork  = connectivityManager.getActiveNetworkInfo();
-        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting()){
-            LoaderManager loaderManager = getLoaderManager();
-            loaderManager.initLoader(NEWS_LOADER_ID,null, this);
-            articles.setEmptyView(emptyView);
+        ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = null;
+        if (connectivityManager != null) {
+            activeNetwork = connectivityManager.getActiveNetworkInfo();
         }
-        else {
+        if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(NEWS_LOADER_ID, null, this);
+            articles.setEmptyView(emptyView);
+        } else {
             progressBar.setVisibility(View.GONE);
             emptyView.setText(R.string.no_internet);
         }
-
     }
 
     @Override
     public Loader<List<Article>> onCreateLoader(int id, Bundle args) {
-        return new NewsLoader(this, URL_1);
+        return new NewsLoader(this, KEY_URL);
     }
 
     @Override
@@ -79,7 +78,7 @@ public class NewsActivity extends AppCompatActivity implements LoaderManager.Loa
         progressBar.setVisibility(View.GONE);
         emptyView.setText(R.string.nothing);
         mAdapter.clear();
-        if(data != null && !data.isEmpty()) {
+        if (data != null && !data.isEmpty()) {
             mAdapter.addAll(data);
         }
     }

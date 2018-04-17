@@ -34,8 +34,7 @@ public class QueryUtils {
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
-        List<Article> articles = extractFeatureFromJson(jsonResponse);
-        return articles;
+        return extractFeatureFromJson(jsonResponse);
     }
 
     private static URL createUrl(String stringUrl) {
@@ -52,7 +51,7 @@ public class QueryUtils {
 
         String jsonResponse = "";
 
-        if(url == null) {
+        if (url == null) {
             return jsonResponse;
         }
 
@@ -66,7 +65,7 @@ public class QueryUtils {
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
-            if(urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
@@ -74,8 +73,7 @@ public class QueryUtils {
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
-        }
-        finally {
+        } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
             }
@@ -88,7 +86,7 @@ public class QueryUtils {
 
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
-        if(inputStream != null) {
+        if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line = bufferedReader.readLine();
@@ -105,7 +103,6 @@ public class QueryUtils {
         if (TextUtils.isEmpty(articleJSON)) {
             return null;
         }
-
         List<Article> articles = new ArrayList<>();
 
         try {
