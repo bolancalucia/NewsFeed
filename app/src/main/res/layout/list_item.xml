@@ -24,7 +24,7 @@
     </LinearLayout>
 
     <View
-        android:layout_width="0dp"
+        android:layout_width="@dimen/weight_width"
         android:layout_height="match_parent"
         android:layout_weight="0.05" />
 
