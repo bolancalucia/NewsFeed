@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class NewsAdapter extends ArrayAdapter<Article> {
 
     private static final String DATETIME_SEPARATOR = "T";
+    private static final String AUTHOR_SEPARATOR = ", ";
 
     public NewsAdapter(Context context, ArrayList<Article> articles) {
         super(context, 0, articles);
@@ -47,6 +48,9 @@ public class NewsAdapter extends ArrayAdapter<Article> {
             date.setText(dateTime.substring(0, index));
             time.setText(dateTime.substring(index + 1, dateTime.length() - 1));
         }
+
+        TextView author = convertView.findViewById(R.id.author);
+        author.setText(currentArticle.getAuthor());
         return convertView;
     }
 }

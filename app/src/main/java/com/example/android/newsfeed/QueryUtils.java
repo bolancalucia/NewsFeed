@@ -117,8 +117,16 @@ public class QueryUtils {
                 String title = currentArticle.getString("webTitle");
                 String dateTime = currentArticle.getString("webPublicationDate");
                 String url = currentArticle.getString("webUrl");
+                JSONArray tags = currentArticle.getJSONArray("tags");
+                String author[] = new String[tags.length()];
 
-                Article article = new Article(section, title, dateTime, url);
+                for (int j = 0; j < tags.length(); j++) {
+
+                    JSONObject currentAuthor = tags.getJSONObject(j);
+                    author[j] = currentAuthor.getString("webTitle");
+                }
+
+                Article article = new Article(section, title, author, dateTime, url);
                 articles.add(article);
             }
         } catch (JSONException e) {
